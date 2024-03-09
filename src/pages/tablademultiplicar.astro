@@ -1,0 +1,53 @@
+---
+import Layout from '../layout/Layout.astro';
+---
+<Layout titulo="Tabla de multiplicar">
+    <div class="py-3 text-center">
+        <h3 class="text-center">Tablas de Multiplicar</h3>
+       
+    </div>
+
+    <div class="container my-3">
+        <div class="text-center" id="selecconaTabla">
+            <!-- Aquí se generan los botones para seleccionar la tabla -->
+        </div>
+        <div class="container text-center my-5" id="mostrarTablas">
+            
+            <!-- Aquí se mostrarán las tablas de multiplicar -->
+        </div>
+    </div>
+</Layout>
+
+<script>
+    const selecconaTablaEl = document.querySelector("#selecconaTabla");
+    const mostrarTablasEl = document.querySelector("#mostrarTablas");
+
+    document.addEventListener("DOMContentLoaded", () => {
+        seleccionaTabla();
+        tablaDeMiltiplicar(1);
+    });
+
+    // Funciones
+    function seleccionaTabla() {
+        let valor = "";
+        for (let n = 1; n <= 20; n++) {
+            valor +=
+                `<a href="#" class="btn btn-danger mb-3 mx-2" id="${n}">Tabla del ${n}</a>`;
+        }
+        selecconaTablaEl.innerHTML = valor;
+    }
+
+    selecconaTablaEl.addEventListener("click", (e) => {
+        tablaDeMiltiplicar(e.target.id);
+    });
+
+    function tablaDeMiltiplicar(tabla) {
+        let valor = "";
+        for (let n = 1; n <= 10; n++) {
+            valor +=
+                `<h3>${tabla} * ${n} = ${n * tabla} <br></h3>`;
+        }
+        mostrarTablasEl.innerHTML = valor;
+    }
+</script>
+

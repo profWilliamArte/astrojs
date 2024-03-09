@@ -1,0 +1,179 @@
+---
+import Layout from '../layout/Layout.astro';
+---
+<Layout titulo="Tabla de multiplicar">
+    <div class="contenedor text-center text-white" id="contenedor">
+        <h1 class="py-3">Reloj Digital</h1>
+        <h5 id="fecha"></h5>
+        <div class="reloj">
+            <div>
+                <span id="hora">00</span>
+                <span class="text">Horas</span>
+            </div>
+            <div>
+                <span id="minuto">00</span>
+                <span class="text">Minutos</span>
+            </div>
+            <div>
+                <span id="segundo">00</span>
+                <span class="text">Segundos</span>
+            </div>
+            <div>
+                <span id="ampm">AM</span> 
+            </div>
+        </div>
+        <div class="mt-5 d-flex justify-content-center gap-3" id="botones">
+            <a href="#"><img src="fondos/fondo1.avif" alt="" class="btnImagenes" id="fondo1.avif"></a>
+            <a href="#"><img src="fondos/fondo2.avif" alt="" class="btnImagenes" id="fondo2.avif"></a>
+            <a href="#"><img src="fondos/fondo3.avif" alt="" class="btnImagenes" id="fondo3.avif"></a>
+            <a href="#"><img src="fondos/fondo4.avif" alt="" class="btnImagenes" id="fondo4.avif"></a>
+            <a href="#"><img src="fondos/fondo5.avif" alt="" class="btnImagenes" id="fondo5.avif"></a>
+            <a href="#"><img src="fondos/fondo6.avif" alt="" class="btnImagenes" id="fondo6.avif"></a>
+            <a href="#"><img src="fondos/fondo7.avif" alt="" class="btnImagenes" id="fondo7.avif"></a>
+            <a href="#"><img src="fondos/fondo8.avif" alt="" class="btnImagenes" id="fondo8.avif"></a>
+        </div>
+    </div>
+</Layout>
+<style>
+    #contenedor{
+        background-image: url('/fondos/fondo1.avif');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        min-height: calc(100vh - 70px); 
+        transition: ease-out 0.9s;
+        animation: fadein 500ms ease-in-out;
+        /*filter: blur(1px);*/
+    }
+
+    h2{
+        letter-spacing: 4px;
+        font-size: 40px;
+    }
+    .reloj{
+        display: flex;
+        justify-content: center;
+        text-transform: uppercase;
+        margin-top: 150px;
+    }
+    .reloj div{
+        margin: 20px;
+    }
+
+    span{
+        background-color: slateblue;
+        opacity: .8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 100px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        padding: 30px;
+    }
+    .text{
+        height: 30px;
+        font-size: 12px;
+        letter-spacing: 2px;
+        background-color: darkblue;
+        opacity: 0.8;
+    }
+    #ampm{
+        font-size: 20px;
+        height: 30px;
+        width: 60px;
+        background-color: green;
+    }
+
+   
+
+    .btnImagenes{
+
+        width: 80px;
+        height: 50px;
+        box-shadow: 2px 4px 5px rgba(255,255,255,0.5);
+        border: solid 1px #ccc;
+        border-radius: 5px;
+        padding: 2px;
+        transition: all 0.5s;
+    }
+    .btnImagenes:hover{
+        box-shadow: 5px 5px 10px rgba(255,255,255,0.9);
+        transform: scale(1.1);
+    }
+
+
+
+@keyframes fadein {
+    0% {
+        opacity:1;   
+    }
+    50%{
+        opacity:0.5;
+    }
+    100% {
+        opacity:1;
+    }
+   }
+</style>
+<script>
+    // elementos relacionados con las etiquetas clases e identificadores de html
+    const contenedorEl  = document.querySelector("#contenedor") as HTMLElement;;
+    const horaEl        = document.querySelector("#hora");
+    const minutoEl      = document.querySelector("#minuto")
+    const segundoEl     = document.querySelector("#segundo")
+    const ampmEl        = document.querySelector("#ampm")
+    const fechaEl       = document.querySelector("#fecha")
+    const botonesEl     = document.querySelector("#botones")
+
+
+addEventListener("DOMContentLoaded",()=>{
+    mostrarFecha()
+    mostrarHora()
+    setTimeout(()=>{
+        cambiarFondoAutomatico(1)
+    },10000)
+})
+
+// funciones
+function mostrarFecha(){
+    const aMes=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Sectiembre','Octubre','Noviembre','Diciembre'] 
+    let anio = new Date().getFullYear()
+    let mes = new Date().getMonth() 
+    let dia = new Date().getDate()
+    fechaEl.innerHTML=`${dia} de ${aMes[mes]} del ${anio}`;
+}
+function mostrarHora(){
+    let h = new Date().getHours().toString().padStart(2, '0');
+    let m = new Date().getMinutes().toString().padStart(2, '0');
+    let s = new Date().getSeconds().toString().padStart(2, '0');
+    let ampm = (new Date().getHours()>=12) ? 'PM' : 'AM';
+
+    horaEl.innerHTML=h;
+    minutoEl.innerHTML=m
+    segundoEl.innerHTML=s
+    ampmEl.innerHTML=ampm
+
+    setTimeout(()=>{
+        mostrarHora()
+    },1000)
+}
+botonesEl.addEventListener("click",(e)=>{
+    e.preventDefault();
+    const target = e.target as HTMLElement;
+    if (target.id) {
+        contenedorEl.style.backgroundImage = `url('/fondos/${target.id}')`;
+    }
+})
+
+
+function cambiarFondoAutomatico(ind){
+    console.log("modo automatico")
+    const aFondos=['fondo1.avif','fondo2.avif','fondo3.avif','fondo4.avif','fondo5.avif','fondo6.avif','fondo7.avif','fondo8.avif'];
+    contenedorEl.style.backgroundImage=`url(fondos/${aFondos[ind]})`;
+    ind++;
+    if(ind>7)ind=1
+    setTimeout(()=>{
+        cambiarFondoAutomatico(ind)
+     },10000)
+}
+</script>
